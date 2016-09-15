@@ -62,7 +62,7 @@ function appendButtons(pageList) {
  
 // Search function finds both name and/or email. Display No Matches if no matches are found.
 function searchList() { 
-  var searchTerm = $('#search').val().toLowerCase().trim();
+  var searchTerm = $('#search').val().toLowerCase();
   var filteredStudents = $studentItems.filter(function(i) {
     var studentNames = $(this).find('h3').text();
     var studentEmail = $(this).find('.email').text();
@@ -92,3 +92,5 @@ displayPages(0, $studentList);
 // Event Handlers
 $('.student-search').find('button').on('click', searchList);
 $('.student-search').find('input').keyup(searchList);
+
+
