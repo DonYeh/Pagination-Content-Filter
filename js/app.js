@@ -1,14 +1,12 @@
-
+// use strict
 "use strict";
-
 
 // Globals
 var $studentItems = $('.student-item');
 var $studentList = studentArray($studentItems);
-var studentSearch ='<div class="student-search"><input id="search" placeholder="Search for students..."><button>Search</button></div>';
-// Appends search function
+var studentSearch ='<div class="student-search"><input id="search" placeholder="Search for studentsz..."><button>Search</button></div>';
 $('.page-header').append(studentSearch);
-var pagination ='<div class="pagination"><ul></ul></div>';
+var paginationHTML ='<div class="pagination"><ul></ul></div>';
 
 // Generate a new array of students for each page and limit the number of students to 10.
 function studentArray(list) {
@@ -22,8 +20,9 @@ function studentArray(list) {
   return pagesArray;
 }
 
-// After generating the pages array of students, display the first page and hide the rest. 
+// Generate the pages array of students, display the first page and hide the rest. 
 function displayPages(pageNumber, pageList) {
+  // hide all the students 
   $(".student-list li").hide();
   $.each(pageList, function(index, page){
       if (pageNumber === index) {
@@ -37,24 +36,25 @@ function displayPages(pageNumber, pageList) {
 
 // Append buttons to page and set/remove active pages
 function appendButtons(pageList) {
-  $('.page').append(pagination);
+  $('.page').append(paginationHTML);
   var pagesTotal = pageList.length;
   // create page links
   for (var i = 1; i <= pagesTotal; i++) {
     var buttons = '<li><a href="#">' + i + '</a></li>';
     $('.pagination ul').append(buttons);
   }
-  // Set first page to active
+  // Set the first page to active
   $('.pagination ul li a').first().addClass('active');
   // Add click listeners
   $(".pagination ul li a").on("click", function(e) {
     // Get the page number of the clicked link
     var pageSelection = parseInt($(this)[0].text) - 1;
     displayPages(pageSelection, pageList);
-    // Remove active class from the previous page
+    // Remove the active class from the previous page
     $(".pagination ul li a").removeClass();
-    // Set new active class to the clicked page
+    // Set a new active class to the clicked page
     $(this).addClass("active");
+    // prevents links from going to the top of the page when clicked
     e.preventDefault();
   });
 }
@@ -63,7 +63,9 @@ function appendButtons(pageList) {
 // Search function finds both name and/or email. Display No Matches if no matches are found.
 function searchList() { 
   var searchTerm = $('#search').val().toLowerCase();
+  // Search for by name and email. Return true is there is a match, false otherwise.
   var filteredStudents = $studentItems.filter(function(i) {
+    //student names are located in the h3 selector
     var studentNames = $(this).find('h3').text();
     var studentEmail = $(this).find('.email').text();
     if (studentNames.indexOf(searchTerm) > -1 || studentEmail.indexOf(searchTerm) > -1) {
